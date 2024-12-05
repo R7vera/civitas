@@ -1,0 +1,68 @@
+<app-toast></app-toast>
+
+<div class="video-background">
+    <video #videoElement src="InicioSesion.mp4" autoplay muted loop></video>
+    <div class="overlay"></div>
+    <div class="login">
+        <div class="content-login">
+            <h2>Iniciar Sesión en <span>Civitas</span></h2>
+            <p>Tu mejor opción, para viajar por tierra a lo largo ancho de Latinoamerica</p>
+            <form (ngSubmit)="onSubmit()">
+                <input type="email" [(ngModel)]="username" name="username" placeholder="Correo Electrónico o Usuario"
+                    required>
+                <div class="password-container">
+                    <input type="{{ showPassword ? 'text' : 'password' }}" [(ngModel)]="password" name="password"
+                        placeholder="Contraseña" required>
+                    <button type="button" class="password-toggle" (click)="togglePasswordVisibility()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-eye">
+                            <path d="M1 12s3-9 11-9 11 9 11 9-3 9-11 9-11-9-11-9z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="terminos" [(ngModel)]="aceptarTerminos" name="terminos">
+                    <label for="terminos">
+                        Acepto los <a href="javascript:void(0);" (click)="openTermsModal()">términos y condiciones</a>
+                    </label>
+                </div>
+                <button type="submit">Iniciar Sesión</button>
+            </form>
+            <button class="register-button" (click)="navigateToRegister()">Registrarse</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de términos y condiciones -->
+<div class="terms-modal" *ngIf="showTermsModal">
+    <div class="terms-content text-[12px]">
+        <div class="flex w-full justify-between">
+            <h2 class=" text-[#ff5050]  ">Términos y Condiciones</h2>
+            <button class="close-btn bg-[#ff5050] w-[20px] h-[20px] text-white" (click)="closeTermsModal()">X</button>
+        </div>
+        <p><strong class="bg-[#ff5050] text-white">1. Aceptación de los Términos</strong></p>
+        <p>Al acceder y utilizar el software de compra de pasajes [Nombre del Software] (en adelante, "el Servicio" o "la Plataforma"), el usuario (en adelante, "el Usuario" o "Usted") acepta cumplir con estos **Términos y Condiciones de Uso**...</p>
+        <p><strong class="bg-[#ff5050] text-white">2. Descripción del Servicio</strong></p>
+        <p><strong class="bg-[#ff5050] text-white">CIVITAS</strong> es una plataforma en línea que permite la compra de pasajes para transporte terrestre en diversos destinos, facilitando la reserva y pago de billetes a través de una interfaz web o móvil...</p>
+        <p><strong class="bg-[#ff5050] text-white">3. Registro y Cuentas de Usuario</strong></p>
+        <p>3.1 **Registro**: Para utilizar algunas funcionalidades de la Plataforma, el Usuario debe crear una cuenta proporcionando información veraz y completa...</p>
+        <p><strong class="bg-[#ff5050] text-white">4. Uso del Servicio</strong></p>
+        <p>4.1 **Condiciones de Uso**: El Usuario se compromete a utilizar el Servicio únicamente para fines lícitos y conforme a estos Términos y Condiciones...</p>
+        <p><strong class="bg-[#ff5050] text-white">5. Contratos de Compra</strong></p>
+        <p>5.1 **Proceso de Compra**: El Usuario podrá realizar compras de pasajes a través de la Plataforma, siguiendo el proceso de selección de ruta, asientos y pago...</p>
+        <p><strong class="bg-[#ff5050] text-white">6. Precios y Disponibilidad</strong></p>
+        <p>6.1 **Precios**: Los precios de los pasajes serán los que se muestren en la Plataforma en el momento de la compra...</p>
+        <p><strong class="bg-[#ff5050] text-white">7. Responsabilidad</strong></p>
+        <p>7.1 **Limitación de Responsabilidad**: El Servicio se proporciona "tal cual" y "según disponibilidad"...</p>
+        <p><strong class="bg-[#ff5050] text-white">8. Propiedad Intelectual</strong></p>
+        <p>8.1 **Derechos de Autor**: Todo el contenido disponible en la Plataforma, incluidos textos, imágenes, logotipos, gráficos, videos, software, etc., está protegido por derechos de autor...</p>
+        <p><strong class="bg-[#ff5050] text-white">9. Protección de Datos Personales</strong></p>
+        <p>9.1 **Privacidad**: La privacidad del Usuario es importante para nosotros. La recopilación y el uso de los datos personales del Usuario se rigen por nuestra **Política de Privacidad**...</p>
+        <p><strong class="bg-[#ff5050] text-white">10. Modificaciones y Suspensión del Servicio</strong></p>
+        <p>10.1 **Modificaciones del Servicio**: [Nombre de la Empresa] se reserva el derecho de modificar, suspender o interrumpir temporal o permanentemente el Servicio...</p>
+        <p><strong class="bg-[#ff5050] text-white">11. Ley Aplicable y Resolución de Conflictos</strong></p>
+        <p>11.1 **Ley Aplicable**: Estos Términos y Condiciones se rigen por las leyes del [país o región]...</p>
+    </div>
+</div>

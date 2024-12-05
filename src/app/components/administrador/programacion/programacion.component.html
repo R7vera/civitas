@@ -1,0 +1,187 @@
+<app-toast></app-toast>
+
+<app-nav-dashoboard></app-nav-dashoboard>
+<div class="flex pt-16 overflow-hidden bg-[#0D0D0D] ">
+    <app-dashboard-admi></app-dashboard-admi>
+    <div id="main-content" class="relative w-full h-full overflow-y-auto bg-[#161616] lg:ml-64">
+        <main class="p-[10px]">
+            <h1 class="text-3xl mt-[10px] text-white mb-6 text-center font-semibold slide-from-right">
+                PROGRAMACIÓN DE VIAJES
+                <span class="bg-red-500 p-[5px] pulse-red">CIVITAS</span>
+            </h1>
+            <div class="p-4">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div *ngFor="let programacion of programaciones"
+                        class="bg-gradient-to-t from-gray-800 via-gray-900 to-black p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300">
+                        
+                        <!-- Imagen superior -->
+                        <div class="relative mb-4">
+                            <img *ngIf="obtenerImg(programacion.idDestino)" [src]="obtenerImg(programacion.idDestino)" alt="Imagen del Vehículo" class="w-full h-48 object-cover rounded-t-xl">
+                            <div *ngIf="!obtenerImg(programacion.idDestino)" class="w-full h-48 bg-gray-700 rounded-t-xl flex items-center justify-center text-white font-semibold">
+                                No hay imagen
+                            </div>
+                        </div>
+                
+                        <!-- Contenido de la tarjeta -->
+                        <h3 class="text-2xl text-white font-semibold mb-4">
+                            {{ obtenerVehiculoNombre(programacion.idVehiculo) }}
+                        </h3>
+                
+                        <div class="text-white mb-4">
+                            <strong>Destino:</strong> 
+                            {{ obtenerDestinoNombre(programacion.idDestino) }}
+                        </div>
+                
+                        <div class="text-white mb-4">
+                            <strong>Fecha de Salida:</strong> 
+                            {{ programacion.fechaSalida | date: 'short' }}
+                        </div>
+                
+                        <div class="text-white mb-4">
+                            <strong>Fecha de Llegada:</strong> 
+                            {{ programacion.fechaLlegada | date: 'short' }}
+                        </div>
+                
+                        <!-- Botones -->
+                        <div class="flex justify-between mt-4">
+                            <button
+                                class="bg-orange-600 text-white p-3 rounded-lg hover:bg-orange-700 transition-all duration-200 transform hover:scale-105"
+                                (click)="verDetalles(programacion)">
+                                Más Detalles
+                            </button>
+                            <button
+                                class="bg-red-600 text-white p-3 rounded-lg hover:bg-red-700 transition-all duration-200 transform hover:scale-105"
+                                (click)="eliminarProgramacion(programacion.id)">
+                                Eliminar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+
+                <!-- Modal para Detalles -->
+                <div *ngIf="mostrarDetalles"
+                    class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-75 backdrop-blur-sm">
+                    <div
+                        class="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-lg shadow-xl max-w-lg w-full p-8 dark:bg-gray-800 transform transition-all duration-300 ease-in-out scale-95 hover:scale-100">
+                        <h3 class="text-3xl text-white font-semibold text-center mb-8 tracking-wide">
+                            <span
+                                class="bg-clip-text text-white bg-gradient-to-r">Detalles
+                                de Programación</span>
+                        </h3>
+
+                        <div class="text-gray-200 dark:text-gray-300 mb-5">
+                            <strong class="font-semibold text-lg">ID Vehículo:</strong>
+                            <span class="text-white">{{ obtenerVehiculoNombre(detallesSeleccionada.idVehiculo) }}</span>
+                        </div>
+
+                        <div class="text-gray-200 dark:text-gray-300 mb-5">
+                            <strong class="font-semibold text-lg">Destino:</strong>
+                            <span class="text-white">{{ obtenerDestinoNombre(detallesSeleccionada.idDestino) }}</span>
+                        </div>
+
+                        <div class="text-gray-200 dark:text-gray-300 mb-5">
+                            <strong class="font-semibold text-lg">Fecha de Salida:</strong>
+                            <span class="text-white">{{ detallesSeleccionada.fechaSalida | date: 'short' }}</span>
+                        </div>
+
+                        <div class="text-gray-200 dark:text-gray-300 mb-5">
+                            <strong class="font-semibold text-lg">Fecha de Llegada:</strong>
+                            <span class="text-white">{{ detallesSeleccionada.fechaLlegada | date: 'short' }}</span>
+                        </div>
+
+                        <div class="flex justify-center gap-6 mt-8">
+                            <button
+                                class="bg-blue-600 text-white font-medium py-3 px-6 rounded-lg shadow-lg hover:bg-blue-700 transition-all duration-200 ease-in-out transform hover:scale-105"
+                                (click)="cerrarDetalles()">
+                                Cerrar
+                            </button>
+                            <button
+                                class="bg-red-600 text-white font-medium py-3 px-6 rounded-lg shadow-lg hover:bg-red-700 transition-all duration-200 ease-in-out transform hover:scale-105"
+                                (click)="eliminarProgramacion(detallesSeleccionada.id)">
+                                Eliminar Programación
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="mt-[20px] flex justify-end">
+                <button class="p-[10px] rounded-lg text-white bg-orange-600" (click)="abrirModalRegistrar()">
+                    Registrar Programación
+                </button>
+            </div>
+
+            <!-- Modal -->
+            <div *ngIf="mostrarModal"
+                class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
+                <div
+                    class="bg-white rounded-lg shadow-xl max-w-md w-full p-6 dark:bg-gray-800 dark:border dark:border-gray-600">
+                    <h3 class="text-lg bg-blue-600 p-3 font-semibold mb-4 text-white text-center rounded-t-lg">
+                        {{ modalTitulo }}
+                    </h3>
+
+                    <div *ngIf="modalTipo === 'editar' || modalTipo === 'registrar'">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Fecha de
+                            Salida</label>
+                        <input [(ngModel)]="programacionSeleccionada.fechaSalida" type="datetime-local"
+                            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 p-2 mb-4" />
+
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mt-4 mb-1">Fecha de
+                            Llegada</label>
+                        <input [(ngModel)]="programacionSeleccionada.fechaLlegada" type="datetime-local"
+                            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 p-2 mb-4" />
+
+                        <!-- Selección del Vehículo -->
+                        <label
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mt-4 mb-1">Vehículo</label>
+                        <select [(ngModel)]="programacionSeleccionada.idVehiculo"
+                            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 p-2 mb-4">
+                            <option *ngFor="let vehiculo of vehiculos" [value]="vehiculo.id">
+                                {{ vehiculo.placa }} - {{ vehiculo.tipoVehiculo.nombre}}
+                            </option>
+                        </select>
+
+                        <!-- Selección del Destino -->
+                        <label
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mt-4 mb-1">Destino</label>
+                        <select [(ngModel)]="programacionSeleccionada.idDestino"
+                            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 p-2 mb-4">
+                            <option *ngFor="let destino of destinos" [value]="destino.id">
+                                {{ destino.direccionLlegada.nombre }} - {{destino.direccionSalida.nombre}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div *ngIf="modalTipo === 'eliminar'">
+                        <p class="text-gray-700 dark:text-gray-300 text-center mb-4">¿Estás seguro de que quieres
+                            eliminar esta programación?</p>
+                    </div>
+
+                    <div class="mt-4 flex justify-center space-x-4">
+                        <button
+                            class="bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-lg shadow-sm"
+                            (click)="cerrarModal()">
+                            Cancelar
+                        </button>
+                        <button
+                            *ngIf="(modalTipo === 'editar' || modalTipo === 'registrar') && programacionSeleccionada"
+                            class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg shadow-sm"
+                            (click)="modalTipo === 'editar' ? guardarCambios(programacionSeleccionada) : registrarProgramacion(programacionSeleccionada)">
+                            {{ modalTipo === 'editar' ? 'Guardar Cambios' : 'Registrar' }}
+                        </button>
+                        <button *ngIf="modalTipo === 'eliminar' && programacionSeleccionada"
+                            class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg shadow-sm"
+                            (click)="eliminarProgramacion(programacionSeleccionada.id)">
+                            Confirmar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</div>

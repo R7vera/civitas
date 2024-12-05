@@ -1,0 +1,8 @@
+/* Tailwind styles for layout */
+.main-container {
+    min-width: 350px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+  }
+  

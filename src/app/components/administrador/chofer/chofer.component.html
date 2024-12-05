@@ -1,0 +1,290 @@
+<app-toast></app-toast>
+<app-nav-dashoboard></app-nav-dashoboard>
+<div class="flex pt-16 overflow-hidden h-full bg-[#0D0D0D]">
+    <app-dashboard-admi></app-dashboard-admi>
+
+    <div id="main-content" class="relative w-full h-full overflow-y-auto bg-[#161616] lg:ml-64">
+        <main class="p-[10px]">
+            <h1 class="text-3xl mt-[10px] text-white mb-6 text-center font-semibold slide-from-right">
+                LISTA DE CHOFERES
+                <span class="bg-green-500 p-[5px] pulse-green">CIVITAS</span>
+            </h1>
+
+            <div class="flex justify-center">
+                <span
+                    class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-yellow-300 border border-yellow-300">
+                    Total de Choferes: {{ numeroChoferes }}
+                </span>
+            </div>
+
+            <!-- Tabla de Choferes -->
+            <div class="flex flex-col mt-[30px]" data-hs-datatable='{
+                            "pageLength": 15,
+                            "scrollY": "470px",
+                            "pagingOptions": {
+                            "pageBtnClasses": "min-w-[40px] flex justify-center items-center py-2.5 text-sm rounded-full disabled:opacity-50 disabled:pointer-events-none text-white focus:bg-neutral-700 hover:bg-neutral-700"
+                            }
+                        }'>
+                <div class="overflow-x-auto min-h-[100px] bg-white shadow-sm rounded-lg dark:bg-neutral-800">
+                    <table class="min-w-full text-left border-collapse">
+                        <thead class="bg-gray-100 dark:bg-neutral-700">
+                            <tr>
+                                <th scope="col"
+                                    class="px-4 py-3 text-sm font-semibold text-gray-700 dark:text-neutral-200">Nombre
+                                </th>
+                         
+                                <th scope="col"
+                                    class="px-2 py-3 text-sm font-semibold text-gray-700 dark:text-neutral-200">Licencia
+                                </th>
+                                <th scope="col"
+                                    class="px-2 py-3 text-sm font-semibold text-gray-700 dark:text-neutral-200">Estado
+                                </th>
+                                <th scope="col"
+                                    class="px-4 py-3 text-sm font-semibold text-gray-700 dark:text-neutral-200 text-center">
+                                    Acciones
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-neutral-600">
+                            <tr *ngFor="let chofer of choferes">
+                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-neutral-200">
+                                    {{ chofer.persona.nombres }}
+                                </td>
+                                
+                                <td class="px-2 py-3 text-sm text-gray-800 dark:text-neutral-200">
+                                    {{ chofer.tipoLicencia.nombre }}
+                                </td>
+                                <td class="px-2 py-3 text-sm text-gray-800 dark:text-neutral-200">
+                                    <span *ngIf="chofer.estado"
+                                        class="inline-flex items-center gap-x-1.5 py-1.5 px-1 rounded-full text-xs font-medium border border-teal-500 text-teal-500">
+                                        Activo
+                                    </span>
+                                    <span *ngIf="!chofer.estado"
+                                        class="inline-flex items-center gap-x-1.5 py-1.5 px-1 rounded-full text-xs font-medium border border-red-500 text-red-500">
+                                        Inactivo
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3 text-center">
+                                    <!-- Botones de acción -->
+                                    <button type="button" (click)="abrirModalEliminar(chofer.id)"
+                                    class="inline-flex items-center px-2 py-1 ml-2 text-sm font-medium text-red-600 bg-red-100 rounded hover:bg-red-200 dark:text-red-500 dark:bg-red-900/20 dark:hover:bg-red-900/30">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                    Eliminar
+                                </button>
+                                
+                                <button type="button" (click)="toggleEstado(chofer)"
+                                    class="inline-flex items-center px-2 py-1 ml-2 text-sm font-medium"
+                                    [ngClass]="{'text-gray-600 bg-gray-100 hover:bg-gray-200 dark:text-gray-300 dark:bg-neutral-700 dark:hover:bg-neutral-600': chofer.estado, 'text-yellow-600 bg-yellow-100 hover:bg-yellow-200 dark:text-yellow-500 dark:bg-yellow-900/20 dark:hover:bg-yellow-900/30': !chofer.estado}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 12h14m-7-7v14"></path>
+                                    </svg>
+                                    {{ chofer.estado ? 'Deshabilitar' : 'Habilitar' }}
+                                </button>
+                                    <button type="button" (click)="verDetalles(chofer)"
+                                        class="inline-flex items-center px-2 py-1 ml-2 text-sm font-medium text-blue-600 bg-blue-100 rounded hover:bg-blue-200 dark:text-blue-500 dark:bg-blue-900/20 dark:hover:bg-blue-900/30">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 5v14m7-7H5"></path>
+                                        </svg>
+                                        Ver Detalles
+                                    </button>
+                                    <button type="button" (click)="abrirModalEditar(chofer)"
+                                        class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition ml-2">
+                                        Editar
+                                    </button>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="mt-[20px] flex justify-end">
+                <button class="p-[10px] rounded-lg text-white bg-orange-600" (click)="abrirModalRegistrar()">
+                    Registrar Chofer
+                </button>
+            </div>
+            <div *ngIf="mostrarModalRegistrarAndEdi"
+                class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-2xl max-w-md w-full p-8 relative">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-100">
+                            {{ modalTituloRegistrarAndEdi }}
+                        </h3>
+                        <button class="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
+                            (click)="cerrarModalEditarAndRegis()">
+                            ✖
+                        </button>
+                    </div>
+                    <div
+                        *ngIf="choferFormulario && (modalTipoRegistrarAndEdi === 'editar' || modalTipoRegistrarAndEdi === 'registrar')">
+                        <!-- Editar: Salida -->
+                        <div>
+                            <label for="nombres"
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nombres</label>
+                            <input type="text" id="nombres" [(ngModel)]="choferFormulario.persona.nombres"
+                                name="nombres"
+                                class="w-full mt-1 p-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 focus:outline-none focus:ring focus:ring-blue-300"
+                                placeholder="Ingrese el nombre" required />
+                        </div>
+
+                        <!-- Apellidos -->
+                        <div>
+                            <label for="apellidos"
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-300">Apellido Paterno</label>
+                            <input type="text" id="apellidos" [(ngModel)]="choferFormulario.persona.apellidoPaterno"
+                                name="apellidos"
+                                class="w-full mt-1 p-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 focus:outline-none focus:ring focus:ring-blue-300"
+                                placeholder="Ingrese los apellidos" required />
+                        </div>
+
+                        <div>
+                            <label for="apellidos"
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-300">Apellido Materno</label>
+                            <input type="text" id="apellidos" [(ngModel)]="choferFormulario.persona.apellidoMaterno"
+                                name="apellidos"
+                                class="w-full mt-1 p-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 focus:outline-none focus:ring focus:ring-blue-300"
+                                placeholder="Ingrese los apellidos" required />
+                        </div>
+
+                        <!-- Documento de Identidad -->
+                        <div>
+                            <label for="documentoIdentidad"
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-300">Documento de
+                                Identidad</label>
+                            <input type="text" id="documentoIdentidad"
+                                [(ngModel)]="choferFormulario.persona.documentoIdentidad" name="documentoIdentidad"
+                                class="w-full mt-1 p-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 focus:outline-none focus:ring focus:ring-blue-300"
+                                placeholder="Ingrese el número de documento" required />
+                        </div>
+
+                        <!-- Tipo de Documento -->
+                        <div>
+                            <label for="tipoDocumento"
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-300">Tipo de
+                                Documento</label>
+                            <select id="tipoDocumento" [(ngModel)]="choferFormulario.persona.tipoDocumento"
+                                name="tipoDocumento"
+                                class="w-full mt-1 p-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 focus:outline-none focus:ring focus:ring-blue-300"
+                                required>
+                                <option value="" disabled selected>Seleccione un tipo de documento</option>
+                                <option *ngFor="let tipo of tipoDocumento" [ngValue]="tipo">{{ tipo.nombre }}</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="tipoLicencia"
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-300">Tipo de
+                                Licencia</label>
+                            <select id="tipoDocumento" [(ngModel)]="choferFormulario.tipoLicencia"
+                                name="tipoDocumento"
+                                class="w-full mt-1 p-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 focus:outline-none focus:ring focus:ring-blue-300"
+                                required>
+                                <option value="" disabled selected>Seleccione un tipo de documento</option>
+                                <option *ngFor="let tipo of tipoLicencia" [ngValue]="tipo">{{ tipo.nombre }}</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="numeroLicencia"
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-300">Codigo de
+                                Licencia</label>
+                            <input type="text" id="documentoIdentidad"
+                                [(ngModel)]="choferFormulario.numeroLicencia" name="documentoIdentidad"
+                                class="w-full mt-1 p-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 focus:outline-none focus:ring focus:ring-blue-300"
+                                placeholder="Ingrese el número de documento" required />
+                        </div>
+                    </div>
+
+                    <!-- Confirmación de Eliminación -->
+                    <div *ngIf="modalTipoRegistrarAndEdi === 'eliminar' && idChoferEliminar != 0" class="text-center">
+                        <p class="text-gray-700 dark:text-gray-300">¿Estás seguro de que quieres eliminar este
+                            Chofer?</p>
+                    </div>
+
+                    <!-- Botones -->
+                    <div class="mt-6 flex justify-between">
+                        <button class="bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-6 rounded"
+                            (click)="cerrarModalEditarAndRegis()">Cancelar</button>
+                        <button
+                            *ngIf="(modalTipoRegistrarAndEdi === 'editar' || modalTipoRegistrarAndEdi === 'registrar') && choferFormulario
+                            "
+                            class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded"
+                            (click)="modalTipoRegistrarAndEdi === 'editar' ? editarChofer() : registrarChofer()">
+                            {{ modalTipoRegistrarAndEdi === 'editar' ? 'Guardar Cambios' : 'Registrar' }}
+                        </button>
+                        <button *ngIf="modalTipoRegistrarAndEdi === 'eliminar' && idChoferEliminar != 0"
+                            class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-6 rounded"
+                            (click)="eliminarChofer(idChoferEliminar)">Confirmar</button>
+                    </div>
+
+                </div>
+            </div>
+            <div *ngIf="modalVisible"
+                class="fixed inset-0 flex justify-center items-center bg-black bg-opacity-70 z-50">
+                <div
+                    class="bg-gradient-to-br from-gray-50 via-white to-gray-100 p-8 rounded-xl shadow-2xl w-11/12 md:w-1/2 border-t-8 border-blue-500 transform scale-100 hover:scale-105 transition-transform duration-300">
+                    <!-- Título del Modal -->
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-3xl font-extrabold text-gray-800">
+                            🚖 Detalles del Chofer
+                        </h3>
+                        <button (click)="cerrarModal()"
+                            class="text-gray-500 hover:text-gray-700 text-2xl font-bold transition-colors">
+                            ✕
+                        </button>
+                    </div>
+
+                    <!-- Detalles del Chofer -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-lg">
+                        <div class="flex flex-col">
+                            <span class="font-semibold text-gray-700">Nombre:</span>
+                            <span class="text-gray-600">{{ modalChofer?.persona?.nombres }}</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-semibold text-gray-700">Apellido:</span>
+                            <span class="text-gray-600">{{ modalChofer?.persona?.apellidoPaterno }}
+                                {{modalChofer?.persona?.apellidoMaterno}}</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-semibold text-gray-700">Documento Identidad:</span>
+                            <span class="text-gray-600">{{ modalChofer?.persona?.documentoIdentidad }}</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-semibold text-gray-700">Tipo Documento:</span>
+                            <span class="text-gray-600">{{ modalChofer?.persona?.tipoDocumento?.nombre }}</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-semibold text-gray-700">Número Licencia:</span>
+                            <span class="text-gray-600">{{ modalChofer?.numeroLicencia }}</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-semibold text-gray-700">Tipo Licencia:</span>
+                            <span class="text-gray-600">{{ modalChofer?.tipoLicencia?.nombre }}</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-semibold text-gray-700">Estado:</span>
+                            <span class="text-gray-600">{{ modalChofer?.estado ? 'Activo' : 'Inactivo' }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Botón Cerrar -->
+                    <div class="flex justify-center mt-8">
+                        <button type="button" (click)="cerrarModal()"
+                            class="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full text-xl font-semibold shadow-lg hover:shadow-2xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300">
+                            Cerrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+        </main>
+    </div>
+</div>

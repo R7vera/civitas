@@ -1,0 +1,160 @@
+<aside id="sidebar" #midashboard
+    class="fixed top-0 left-0 z-20 flex flex-col hidden flex-shrink-0 w-64 h-full pt-16 font-normal duration-75 lg:flex transition-width"
+    aria-label="Sidebar">
+    <div class="relative flex flex-col flex-1 min-h-0 pt-0 bg-[#0D0D0D]">
+        <div class="flex flex-col flex-1 pt-5 pb-4 overflow-y-auto">
+            <div class="flex-1 px-3 space-y-1 bg-[#0D0D0D] divide-y divide-gray-200 ">
+                <ul class="pb-2 space-y-2">
+
+                    <li>
+                        <button (click)="navigateTo('/dashboard-admi')"
+                            class="flex items-center p-2 text-base text-white rounded-lg hover:bg-[#333333] group">
+                            <svg class="w-6 h-6 text-white transition duration-75 " fill="currentColor"
+                                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
+                                <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
+                            </svg>
+                            <span class="ml-3" sidebar-toggle-item>Dashboard</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button"
+                            class="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg group"
+                            (click)="toggleDropdown()">
+                            <!-- Icono relacionado con destinos (globo) -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor"
+                                class="bi bi-globe-americas" viewBox="0 0 16 16">
+                                <path
+                                    d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0M2.04 4.326c.325 1.329 2.532 2.54 3.717 3.19.48.263.793.434.743.484q-.121.12-.242.234c-.416.396-.787.749-.758 1.266.035.634.618.824 1.214 1.017.577.188 1.168.38 1.286.983.082.417-.075.988-.22 1.52-.215.782-.406 1.48.22 1.48 1.5-.5 3.798-3.186 4-5 .138-1.243-2-2-3.5-2.5-.478-.16-.755.081-.99.284-.172.15-.322.279-.51.216-.445-.148-2.5-2-1.5-2.5.78-.39.952-.171 1.227.182.078.099.163.208.273.318.609.304.662-.132.723-.633.039-.322.081-.671.277-.867.434-.434 1.265-.791 2.028-1.12.712-.306 1.365-.587 1.579-.88A7 7 0 1 1 2.04 4.327Z" />
+                            </svg>
+                            <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Geograficos</span>
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                        <ul *ngIf="isDropdownOpen" id="dropdown-layouts" class="py-2 space-y-2">
+                            <!-- Países -->
+                            <li>
+                                <button type="button" (click)="navigateTo('/paises')"
+                                    class="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg pl-11 group hover:bg-[#333333]">
+                                     País
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button" (click)="navigateTo('/departamentos')"
+                                    class="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg pl-11 group hover:bg-[#333333]">
+                                     Departamentos
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button" (click)="navigateTo('/ciudades')"
+                                    class="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg pl-11 group hover:bg-[#333333]">
+                                     Ciudades
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button" (click)="navigateTo('/distritos')"
+                                    class="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg pl-11 group hover:bg-[#333333]">
+                                     Distritos
+                                </button>
+                            </li>
+                            <!-- Direcciones -->
+                           
+                        </ul>
+                    </li>
+
+                    <li>
+                        <button type="button"
+                            class="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg group"
+                            (click)="togleDestinos()">
+                            <!-- Icono relacionado con destinos (globo) -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                                <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+                              </svg>
+                            <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Programaciones</span>
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                        <ul *ngIf="isDestinos" id="dropdown-layouts" class="py-2 space-y-2">
+                            <!-- Países -->
+                            <li>
+                                <button type="button" (click)="navigateTo('/destinos')"
+                                    class="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg pl-11 group hover:bg-[#333333]">
+                                     Destinos
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button" (click)="navigateTo('/programacion')"
+                                    class="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg pl-11 group hover:bg-[#333333]">
+                                     Programacion
+                                </button>
+                            </li>
+                            <!-- Direcciones -->
+                           
+                        </ul>
+                    </li>
+                    <li>
+                        <button type="button"
+                            class="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg group"
+                            (click)="togleTeam()">
+                            <!-- Icono relacionado con destinos (globo) -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
+                                <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
+                              </svg>
+                            <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Equipos</span>
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                        <ul *ngIf="isEquipo" id="dropdown-layouts" class="py-2 space-y-2">
+                            <!-- Países -->
+                            <li>
+                                <button type="button" (click)="navigateTo('/choferes')"
+                                    class="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg pl-11 group hover:bg-[#333333]">
+                                     Choferes
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button" (click)="navigateTo('/vehiculos')"
+                                    class="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg pl-11 group hover:bg-[#333333]">
+                                     Vehiculos
+                                </button>
+                            </li>
+                                <!-- <li>
+                                    <button type="button" (click)="navigateTo('/asientos')"
+                                        class="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg pl-11 group hover:bg-[#333333]">
+                                        Asientos
+                                    </button>
+                                </li> -->
+                            
+                            <!-- Direcciones -->
+                           
+                        </ul>
+                    </li>
+                </ul>
+                <div class="pt-2 space-y-2">
+                    <a href="https://github.com/themesberg/flowbite-admin-dashboard" target="_blank"
+                        class="flex items-center p-2 text-base text-white transition duration-75 rounded-lg hover:bg-[#333333] group">
+                        <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-white transition duration-75"
+                            fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
+                            <path
+                                d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-1.6-1-3.6-.7-4.3.7zm21.6-8.3c-1.3 1.6-2.9 1.6-4.3 0-1-1.6-.3-3.9 1.3-5.6 1.3-1.6 2.9-1.6 4.3 0 1 1.6.3 3.9-1.3 5.6zm57.1-5.6c3.9 1.6 5.6 3.3 6.2 5.2 0 1.9 0 4.3-2.6 4.9-3.9 1.6-5.6-1.9-6.2-3.3-2.6-3.3-3.9-4.3-5.6-5.9-3.9-3.9-5.2-4.9-5.6-5.9-4.9 4.9-2.6 5.9 3.3 5.2zm-62.1-4.3c-1 2 0 4.3 2 5.2s4.3 1 5.2-2c1-2-1-4.3-2-5.2-2-2.3-4.3-1.4-5.2 2.3zM10 0h480c5.5 0 10 4.5 10 10v492c0 5.5-4.5 10-10 10H10c-5.5 0-10-4.5-10-10V10c0-5.5 4.5-10 10-10z">
+                            </path>
+                        </svg>
+                        <span class="ml-3">GitHub</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</aside>

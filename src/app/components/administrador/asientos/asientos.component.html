@@ -1,0 +1,65 @@
+
+  <app-toast></app-toast>
+<app-nav-dashoboard></app-nav-dashoboard>
+<div class="flex pt-16 overflow-hidden h-full bg-[#0D0D0D]">
+    <app-dashboard-admi></app-dashboard-admi>
+
+    <div id="main-content" class="relative w-full h-full overflow-y-auto bg-[#161616] lg:ml-64">
+        <main class="p-[10px]">
+            <h1 class="text-3xl mt-[10px] text-white mb-6 text-center font-semibold slide-from-right">
+                ASIGNACION ASIENTOS
+                <span class="bg-green-500 p-[5px] pulse-green">CIVITAS</span>
+            </h1>
+
+ 
+            <div class="form-container">
+                <!-- Formulario para seleccionar tipo de vehículo y número de asientos -->
+                <form (ngSubmit)="generateSeats()" #seatForm="ngForm">
+                    <div  class="text-white">
+                        <label for="vehicle" class="text-white">Selecciona el tipo de vehículo:</label>
+                        <select id="vehicle" [(ngModel)]="vehicleType" name="vehicleType" required>
+                          <option value="" disabled selected>Elige una opción</option>
+                          <option *ngFor="let bus of vehiculosFiltrados" [value]="bus.tipoVehiculo.nombre">{{ bus.placa }} - {{bus.tipoVehiculo.nombre}}</option>
+                        </select>
+                      </div>
+                      
+              
+                  <div>
+                    <label for="totalSeats"  class="text-white">Ingresa el total de asientos:</label>
+                    <input
+                      id="totalSeats"
+                      type="number"
+                      [(ngModel)]="totalSeats"
+                      name="totalSeats"
+                      required
+                      min="1"
+                      placeholder="Ejemplo: 50"
+                    />
+                  </div>
+              
+                  <button type="submit" [disabled]="!seatForm.valid">Generar asientos</button>
+                </form>
+     
+                <!-- Matriz de botones -->
+                <div *ngIf="seatMatrix.length > 0" class="seats-container">
+                    <div *ngFor="let row of seatMatrix" class="seat-row">
+                      <button
+                        *ngFor="let seat of row"
+                        class="seat-button"
+                        [class.selected]="seat?.selected"
+                        (click)="seat && toggleSeatSelection(seat)"
+                        [disabled]="!seat"
+                      >
+                        {{ seat?.number || '' }}
+                      </button>
+                    </div>
+                  </div>
+                  
+                  
+                  
+              </div>
+
+
+        </main>
+    </div>
+</div>

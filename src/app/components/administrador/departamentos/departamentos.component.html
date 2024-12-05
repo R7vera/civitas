@@ -1,0 +1,133 @@
+<app-toast></app-toast>
+
+<app-nav-dashoboard></app-nav-dashoboard>
+<div class="flex pt-16 overflow-hidden bg-[#0D0D0D] ">
+    <app-dashboard-admi></app-dashboard-admi>
+    <div id="main-content" class="relative w-full h-full overflow-y-auto bg-[#161616] lg:ml-64">
+        <main class="p-[10px]">
+            <h1 class="text-3xl mt-[10px] text-white mb-6 text-center font-semibold slide-from-right">
+                DEPARTAMENTOS ASOCIADOS A
+                <span class="bg-red-500 p-[5px] pulse-red">CIVITAS</span>
+            </h1>
+            <div class="flex justify-center">
+                <span
+                    class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-yellow-300 border border-yellow-300">
+                    Total de Departamentos: {{numberDepartamento}}
+                </span>
+            </div>
+            <div class="mt-[20px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6">
+                <div *ngFor="let departamento of departamentos; let i = index"
+                    class="w-full bg-white border border-gray-200 rounded-xl shadow-lg hover:shadow-2xl dark:bg-gray-800 dark:border-gray-700 transition-all duration-300 transform hover:scale-105">
+                    <div class="relative">
+                        <!-- Imagen del Departamento -->
+                        <img class="w-full h-48 rounded-t-xl object-cover"
+                            [src]="departamento.urlImg" [alt]="departamento.nombre" />
+            
+                        <!-- Botones de acción -->
+                        <div class="absolute top-4 right-4 flex space-x-2">
+                            <!-- Botón de eliminar -->
+                            <button (click)="abrirModalEliminar(departamento.id)"
+                                class="bg-red-500 hover:bg-red-600 text-white rounded-full p-3 shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+            
+                            <!-- Botón de editar -->
+                            <button (click)="abrirModalEditar(departamento)"
+                                class="bg-blue-500 hover:bg-blue-600 text-white rounded-full p-3 shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+            
+                    <div class="px-5 pb-6 text-center">
+                        <!-- Nombre del Departamento -->
+                        <h5 class="text-lg font-semibold text-gray-900 dark:text-white truncate">
+                            {{ departamento.nombre }}
+                        </h5>
+                        <span class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-red-500 text-white">{{ departamento.pais.nombre }}</span>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-[20px] flex justify-end">
+                <button class="p-[10px] rounded-lg text-white bg-orange-600" (click)="abrirModalRegistrar()">
+                    Registrar Departamento
+                </button>
+            </div>
+
+            <div *ngIf="mostrarModal"
+                class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
+                <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-6 dark:bg-gray-800">
+                    <!-- Título del Modal -->
+                    <h3 class="text-lg bg-blue-500 p-[10px] font-medium mb-4 text-gray-800 dark:text-gray-100 text-center">
+                        {{ modalTitulo }}
+                    </h3>
+
+                    <div *ngIf="modalTipo === 'editar' || modalTipo === 'registrar'" class="mb-4">
+                        <div
+                            class="w-full h-48 flex items-center justify-center bg-gray-100 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600">
+                            <img *ngIf="departamentoSeleccionado?.urlImg" [src]="departamentoSeleccionado?.urlImg"
+                                alt="Previsualización de la imagen"
+                                class="object-contain h-full max-w-full rounded-md" />
+                            <span *ngIf="!departamentoSeleccionado?.urlImg" class="text-gray-500 dark:text-gray-400">URL inválido o
+                                vacío</span>
+                        </div>
+                    </div>
+                    <div *ngIf="departamentoSeleccionado && (modalTipo === 'editar' || modalTipo === 'registrar')">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nombre del
+                            Departamento</label>
+                        <input [(ngModel)]="departamentoSeleccionado.nombre" type="text"
+                            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200" />
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mt-4 mb-1">País</label>
+                            <select [(ngModel)]="departamentoSeleccionado.pais.id" name="pais" required
+                                class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200">
+                                <option *ngFor="let pais of paises" [value]="pais.id">{{ pais.nombre }}</option>
+                            </select>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mt-4 mb-1">URL de la
+                            Imagen (www.foto/img.jpg)</label>
+                        <input [(ngModel)]="departamentoSeleccionado.urlImg" type="text" maxlength="150"
+                            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200" />
+                    </div>
+                    <div *ngIf="modalTipo === 'eliminar'">
+                        <p class="text-gray-700 dark:text-gray-300 text-center">¿Estás seguro de que quieres eliminar
+                            este Departamento?</p>
+                    </div>
+
+                    <!-- Selección del País -->
+                    <!-- <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mt-4 mb-1">País</label>
+                    <select [(ngModel)]="departamentoSeleccionado?.pais.id" name="pais" required
+                        class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200">
+                        <option *ngFor="let pais of paises" [value]="pais.id">{{ pais.nombre }}</option>
+                    </select> -->
+                    
+                    <!-- Botones del Modal -->
+                    <div class="mt-4 flex justify-center space-x-4">
+                        <button class="bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded"
+                            (click)="cerrarModal()">
+                            Cancelar
+                        </button>
+                        <button *ngIf="(modalTipo === 'editar' || modalTipo === 'registrar') && departamentoSeleccionado"
+                            class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded"
+                            (click)="modalTipo === 'editar' ? guardarCambios(departamentoSeleccionado) : registrarDepartamento(departamentoSeleccionado)">
+                            {{ modalTipo === 'editar' ? 'Guardar Cambios' : 'Registrar' }}
+                        </button>
+                        <button *ngIf="modalTipo === 'eliminar' && departamentoSeleccionado"
+                            class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded"
+                            (click)="eliminarDepartamento(departamentoSeleccionado.id)">
+                            Confirmar
+                        </button>
+                    </div>
+               
+                </div>
+            </div>
+
+        </main>
+    </div>
+</div>

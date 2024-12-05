@@ -1,0 +1,30 @@
+<div *ngIf="toastData.message" 
+    class="toast fixed z-[100] top-4 right-4 max-w-xs text-sm text-white shadow-lg p-4 overflow-hidden"
+    [ngClass]="[bgColor, isHiding ? 'hidden' : '']" 
+    role="alert" 
+    tabindex="-1" 
+    (transitionend)="onTransitionEnd()">
+  
+    <!-- Barra de carga superior -->
+    <div *ngIf="toastData.isLoading" 
+        class="absolute top-0 left-0 w-full h-1" 
+        [ngClass]="loadingBarColor" 
+        [class.animate-fill]="toastData.isLoading"></div>
+
+    <div class="flex justify-between items-center space-x-2">
+      <!-- Icono de mensaje -->
+      <div class="flex items-center space-x-2">
+        <div [innerHTML]="iconSvg"></div>
+        <span class="font-semibold">{{ toastData.message }}</span>
+      </div>
+
+      <!-- Botón de cierre -->
+      <button type="button" class="inline-flex items-center justify-center w-6 h-6 bg-transparent text-white rounded-full hover:bg-gray-700 focus:outline-none" aria-label="Close" (click)="startHideToast()">
+        <span class="sr-only">Close</span>
+        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 6L6 18"></path>
+          <path d="M6 6L18 18"></path>
+        </svg>
+      </button>
+    </div>
+</div>

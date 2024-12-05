@@ -1,0 +1,79 @@
+/* Estilos básicos del toast */
+.max-w-xs {
+    max-width: 300px;
+  }
+  
+  .text-sm {
+    font-size: 0.875rem;
+  }
+  
+  .bg-gray-800 {
+    background-color: #2d3748;
+  }
+  
+  .bg-green-500 {
+    background-color: #48bb78;
+  }
+  
+  .bg-red-500 {
+    background-color: #f56565;
+  }
+  
+  .bg-yellow-500 {
+    background-color: #d1a401;
+  }
+  
+  .shadow-lg {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .rounded-xl {
+    border-radius: 1rem;
+  }
+  
+  .text-white {
+    color: #ffffff;
+  }
+  
+  .ms-auto {
+    margin-left: auto;
+  }
+  
+  .size-4 {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .size-5 {
+    width: 20px;
+    height: 20px;
+  }
+  
+  /* Agrega más estilos si es necesario */
+  @keyframes fillBar {
+    0% {
+      width: 0%;
+    }
+    100% {
+      width: 100%;
+    }
+  }
+  
+  .animate-fill {
+    animation: fillBar 5s forwards;
+  }
+
+  .toast {
+    transition: opacity 0.5\2s ease-out;
+    opacity: 1;
+  }
+  
+  .toast.hidden {
+    opacity: 0;
+  }
+
+
+
+  
+
+  

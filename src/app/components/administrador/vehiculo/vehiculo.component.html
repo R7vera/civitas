@@ -1,0 +1,126 @@
+<app-toast></app-toast>
+
+<app-nav-dashoboard></app-nav-dashoboard>
+<div class="flex pt-16 overflow-hidden bg-[#0D0D0D] ">
+    <app-dashboard-admi></app-dashboard-admi>
+    <div id="main-content" class="relative w-full h-full overflow-y-auto bg-[#161616] lg:ml-64">
+        <main class="p-[10px]">
+            <h1 class="text-3xl mt-[10px] text-white mb-6 text-center font-semibold slide-from-right">
+                VEHÍCULOS ASOCIADOS A
+                <span class="bg-red-500 p-[5px] pulse-red">CIVITAS</span>
+            </h1>
+            <div class="flex justify-center">
+                <span
+                    class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-yellow-300 border border-yellow-300">Total
+                    de Vehículos: {{numberVehiculo}}</span>
+            </div>
+            <div class="mt-[20px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6">
+                <div *ngFor="let vehiculo of vehiculos; let i = index"
+                    class="w-full bg-white border border-gray-200 rounded-xl shadow-lg hover:shadow-2xl dark:bg-gray-800 dark:border-gray-700 transition-all duration-300 transform hover:scale-105">
+                    <div class="relative">
+                        <img class="w-full h-48 rounded-t-xl object-cover"
+                            [src]="getImagenUrl(vehiculo.tipoVehiculo.nombre)" [alt]="vehiculo.tipoVehiculo" />
+
+                        <!-- Botones de acción -->
+                        <div class="absolute top-4 right-4 flex space-x-2">
+                            <!-- Botón de eliminar -->
+                            <button (click)="abrirModalEliminar(vehiculo.id)"
+                                class="bg-red-500 hover:bg-red-600 text-white rounded-full p-3 shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+
+                            <!-- Botón de editar -->
+                            <button (click)="abrirModalEditar(vehiculo)"
+                                class="bg-blue-500 hover:bg-blue-600 text-white rounded-full p-3 shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="px-5 pb-6 text-center">
+                        <!-- Nombre del Vehículo -->
+                        <h5 class="text-lg font-semibold text-gray-900 dark:text-white truncate">
+                            {{ vehiculo.tipoVehiculo.nombre }} - {{ vehiculo.placa }}
+                        </h5>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">
+                            Número de Pisos: {{ vehiculo.numeroPisos }}<br />
+                            Estado: <span
+                                [ngClass]="{'text-green-500': vehiculo.estado === 'Activo', 'text-red-500': vehiculo.estado === 'Inactivo'}">
+                                {{ vehiculo.estado }}
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal para editar/eliminar -->
+            <div *ngIf="mostrarModal"
+                class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
+                <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-6 dark:bg-gray-800">
+                    <!-- Título del Modal -->
+                    <h3
+                        class="text-lg bg-blue-500 p-[10px] font-medium mb-4 text-gray-800 dark:text-gray-100 text-center">
+                        {{ modalTitulo }}
+                    </h3>
+
+                    <!-- Contenido del Modal -->
+                    <div *ngIf="vehiculoSeleccionado && (modalTipo === 'editar' || modalTipo === 'registrar')">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tipo de
+                            Vehículo</label>
+                        <select [(ngModel)]="vehiculoSeleccionado.tipoVehiculo" [disabled]="modalTipo === 'editar'"
+                            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200">
+                            <option *ngFor="let tipo of tipoVehiculo" [ngValue]="tipo">{{ tipo.nombre| titlecase }}</option>
+                        </select>
+
+                        <label
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mt-4 mb-1">Placa</label>
+                        <input [(ngModel)]="vehiculoSeleccionado.placa" type="text" maxlength="150"
+                            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200" />
+
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mt-4 mb-1">Número de
+                            Pisos</label>
+                        <input [(ngModel)]="vehiculoSeleccionado.numeroPisos" type="number"
+                            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200" />
+
+                    </div>
+
+                    <!-- Confirmación de eliminación -->
+                    <div *ngIf="modalTipo === 'eliminar'">
+                        <p class="text-gray-700 dark:text-gray-300 text-center">¿Estás seguro de que quieres eliminar
+                            este vehículo?</p>
+                    </div>
+
+                    <!-- Botones del Modal -->
+                    <div class="mt-4 flex justify-center space-x-4">
+                        <button class="bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded"
+                            (click)="cerrarModal()">
+                            Cancelar
+                        </button>
+                        <button *ngIf="(modalTipo === 'editar' || modalTipo === 'registrar') && vehiculoSeleccionado"
+                            class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded"
+                            (click)="modalTipo === 'editar' ? guardarCambios(vehiculoSeleccionado) : registrarVehiculo(vehiculoSeleccionado)">
+                            {{ modalTipo === 'editar' ? 'Guardar Cambios' : 'Registrar' }}
+                        </button>
+                        <button *ngIf="modalTipo === 'eliminar' && vehiculoSeleccionado"
+                            class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded"
+                            (click)="eliminarVehiculo(vehiculoSeleccionado.id)">
+                            Confirmar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-[20px] flex justify-end">
+                <button class="p-[10px] rounded-lg text-white bg-orange-600" (click)="abrirModalRegistrar()">
+                    Registrar Vehículo
+                </button>
+            </div>
+        </main>
+    </div>
+</div>

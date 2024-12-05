@@ -1,0 +1,294 @@
+.video-background {
+    position: relative;
+    height: 100vh; /* Ocupar toda la altura de la pantalla */
+    width: 100vw; /* Ocupar toda la anchura de la pantalla */
+    overflow: hidden; /* Asegurarse de que no se desborde */
+}
+
+/* Estilo para el video */
+.video-background video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%; /* Asegurarse de que cubra todo el ancho */
+    min-height: 100%; /* Asegurarse de que cubra todo el alto */
+    object-fit: cover; /* Ajustar para que cubra sin deformarse */
+    z-index: 1; /* Video está por debajo de la capa */
+}
+
+/* Capa negra semitransparente */
+.video-background .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.2); /* Negro semitransparente */
+    z-index: 2; /* La capa está por encima del video */
+}
+
+.login{
+    position: fixed;
+    z-index: 10;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(255, 255, 255,0.5);
+    border-radius: 10px;
+    backdrop-filter: blur(10px); 
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.content-login{
+    padding: 20px;
+    text-align: start;
+
+}
+
+h2{
+    margin: 0;
+    padding: 0;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+h2 span{
+    background-color: #2142A6;
+    color: white;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+input {
+    font-size: 16px;
+    padding: 10px 15px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    width: 100%; /* Se adapta al contenedor */
+    box-sizing: border-box; /* Incluye el padding y border en el tamaño total */
+    transition: all 0.3s ease; /* Animación suave para cambios */
+}
+
+/* Estilo cuando el input tiene el foco */
+input:focus {
+    border-color: #2142a4; /* Color de borde cuando está en foco */
+    background-color: #fff; /* Fondo blanco cuando está en foco */
+    box-shadow: 0 0 10px rgba(33, 66, 164, 0.3); /* Sombra sutil para el enfoque */
+    outline: none; /* Elimina el contorno predeterminado del navegador */
+}
+
+/* Estilo del texto placeholder */
+input::placeholder {
+    color: #4e4e4e; /* Color suave para el texto del placeholder */
+   
+    transition: color 0.3s ease; /* Animación para el color cuando hay enfoque */
+}
+
+/* Cambio de color del placeholder cuando el input tiene el foco */
+input:focus::placeholder {
+    color: #2142a4; /* Cambia el color del placeholder cuando está en foco */
+}
+
+
+/* Estilo base para el checkbox y su etiqueta */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+/* Estilo para el checkbox */
+.checkbox-group input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    cursor: pointer;
+    accent-color: #2142a4; /* Cambia el color del checkbox cuando esté seleccionado */
+    transition: all 0.3s ease; /* Transición suave para cambios */
+}
+
+/* Estilo cuando el checkbox está marcado */
+.checkbox-group input[type="checkbox"]:checked {
+    background-color: #2142a4;
+    border: 2px solid #2142a4; /* Borde azul cuando está marcado */
+    box-shadow: 0 0 5px rgba(33, 66, 164, 0.3); /* Sombra suave al estar marcado */
+}
+
+/* Estilo para la etiqueta */
+.checkbox-group label {
+    font-size: 16px;
+    color: #333; /* Color del texto */
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+/* Estilo para el enlace dentro de la etiqueta */
+.checkbox-group label a {
+    color: #2142a4; /* Color del enlace */
+    text-decoration: none;
+    font-weight: bold; /* Estilo negrita para el enlace */
+    transition: color 0.3s ease;
+}
+
+/* Efecto hover sobre el enlace */
+.checkbox-group label a:hover {
+    color: #1a3491; /* Color más oscuro al pasar el ratón */
+}
+
+/* Estilo cuando el checkbox está en foco */
+.checkbox-group input[type="checkbox"]:focus {
+    outline: none; /* Elimina el contorno por defecto */
+    box-shadow: 0 0 10px rgba(33, 66, 164, 0.4); /* Sombra más pronunciada cuando está en foco */
+}
+
+
+/* Estilo para el botón */
+button[type="submit"] {
+    background-color: #2142a4; /* Color de fondo azul */
+    color: white; /* Color del texto */
+    font-size: 16px; /* Tamaño de fuente */
+    font-weight: bold; /* Fuente en negrita */
+    padding: 15px 30px; /* Relleno (padding) alrededor del texto */
+    border: none; /* Eliminar borde por defecto */
+    
+    cursor: pointer; /* Cursor de mano al pasar sobre el botón */
+    transition: all 0.3s ease; /* Transición suave para efectos */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+/* Efecto hover (cuando el ratón pasa sobre el botón) */
+button[type="submit"]:hover {
+    background-color: #1a3491; /* Cambio de color a un tono más oscuro */    
+}
+
+/* Efecto focus (cuando el botón recibe el foco) */
+button[type="submit"]:focus {
+    outline: none; /* Eliminar el contorno por defecto */
+    box-shadow: 0 0 10px rgba(33, 66, 164, 0.5); /* Sombra azul cuando está en foco */
+}
+
+/* Efecto al hacer clic (clic del usuario) */
+button[type="submit"]:active {
+    background-color: #183b7b; /* Color aún más oscuro */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15); /* Reducir sombra */
+    transform: translateY(2px); /* Mover el botón hacia abajo */
+}
+/* Contenedor para el campo de contraseña y el ícono */
+.password-container {
+    position: relative;
+    width: 100%; /* Asegura que el contenedor se ajuste al ancho del formulario */
+}
+
+.password-container input {
+    font-size: 16px;
+    padding: 10px 15px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    width: 100%; /* Se adapta al contenedor */
+    box-sizing: border-box; /* Incluye el padding y border en el tamaño total */
+    transition: all 0.3s ease; /* Animación suave para cambios */
+}
+
+/* Estilo para el botón del ojo (toggle) */
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Efecto hover sobre el ícono */
+.password-toggle:hover svg {
+    opacity: 0.8;
+}
+
+/* Estilo del ícono del ojo */
+.feather.feather-eye {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: #2142a4;
+}
+
+.password-container input:focus {
+    border-color: #2142a4; /* Color de borde cuando está en foco */
+    background-color: #fff; /* Fondo blanco cuando está en foco */
+    box-shadow: 0 0 10px rgba(33, 66, 164, 0.3); /* Sombra sutil para el enfoque */
+    outline: none; /* Elimina el contorno predeterminado del navegador */
+}
+
+/* Estilos para el checkbox y el botón de submit siguen igual... */
+.register-button {
+    background-color: #f4f4f4; /* Fondo claro */
+    color: #2142a4; /* Texto azul */
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: 2px solid #2142a4;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 15px;
+    width: 100%;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.register-button:hover {
+    background-color: #e6e6e6; /* Fondo más oscuro al pasar el ratón */
+    color: #183b7b; /* Texto más oscuro */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.register-button:active {
+    transform: translateY(2px);
+}
+
+
+/* Modal */
+.terms-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+}
+
+.terms-content {
+    background-color: white;
+    padding: 20px;
+    max-width: 800px;
+    width: 90%;
+    max-height: 80vh;  /* Limita la altura máxima */
+    overflow-y: auto;  /* Activa el scroll cuando el contenido sea largo */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.terms-content h3 {
+    margin-top: 0;
+}
+
+
+
+.terms-content p {
+    margin: 10px 0;
+}
